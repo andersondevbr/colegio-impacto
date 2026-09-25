@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="img/logo-completo.png" alt="Colégio Impacto" width="260">
+  <img src="img/logo-completo.png" alt="Colégio Impacto" width="150">
 </p>
 
 <h1 align="center">Colégio Impacto · Camocim-CE</h1>
