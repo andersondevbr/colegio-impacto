@@ -144,6 +144,17 @@
   }
   window.impactoPronto = true;
 
+  if (hasIO) {
+    var pauseIo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        entry.target.classList.toggle('is-paused', !entry.isIntersecting);
+      });
+    }, { rootMargin: '120px 0px' });
+    document.querySelectorAll('.hero, .stats, .marquee, main > section, .footer').forEach(function (el) {
+      pauseIo.observe(el);
+    });
+  }
+
   var carousel = document.getElementById('carousel');
   function scrollCarousel(dir) {
     var card = carousel.querySelector('.approved');
@@ -310,7 +321,7 @@
     var words = rotator.dataset.words.split('|');
     var wi = 0;
     setInterval(function () {
-      if (document.hidden) return;
+      if (document.hidden || hero.classList.contains('is-paused')) return;
       rotator.classList.remove('is-in');
       rotator.classList.add('is-out');
       setTimeout(function () {
@@ -343,7 +354,21 @@
   var depo = document.getElementById('depo-video');
   var depoPlay = document.getElementById('depo-play');
   if (depo && depoPlay) {
+    var setPoster = function () {
+      if (depo.dataset.poster && !depo.poster) depo.poster = depo.dataset.poster;
+    };
+    if (hasIO) {
+      var posterIo = new IntersectionObserver(function (entries) {
+        if (!entries[0].isIntersecting) return;
+        setPoster();
+        posterIo.disconnect();
+      }, { rootMargin: '400px 0px' });
+      posterIo.observe(depo);
+    } else {
+      setPoster();
+    }
     depoPlay.addEventListener('click', function () {
+      setPoster();
       depo.controls = true;
       depoPlay.hidden = true;
       var p = depo.play();
@@ -444,6 +469,7 @@
 
   var canvas = document.getElementById('constelacao');
   if (!canvas || !canvas.getContext) return;
+  if (window.matchMedia('(max-width: 899px), (pointer: coarse)').matches) return;
 
   function startConstellation() {
     var ctx = canvas.getContext('2d');
