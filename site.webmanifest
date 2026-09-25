@@ -1,0 +1,12 @@
+{
+  "name": "Colégio Impacto Camocim",
+  "short_name": "Impacto",
+  "lang": "pt-BR",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#1447E6",
+  "icons": [
+    { "src": "img/logo-icone.png", "sizes": "256x256", "type": "image/png" }
+  ]
+}
